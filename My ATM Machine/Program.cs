@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization.Formatters;
 
 public class cardHolder
 {
@@ -101,10 +102,65 @@ public class cardHolder
                 Console.WriteLine("Thank YOU" :)");
             }
         }
-        void Balance(cardHolder currentUser)
+
+        void balance(cardHolder currentUser)
         {
             Console.WriteLine("Your balance is: " + currentUser.getBalance());
         }
 
+        List<cardHolder> cardHolders = new List<cardHolder>();
+        cardHolders.Add(new cardHolder("1234567890", 1234, "Braian", "Perez", 200.99)); 
+        cardHolders.Add(new cardHolder("1234567890", 4321, "Nashalys", "Fernandez", 700.99)); 
+        cardHolders.Add(new cardHolder("1234567890", 1423, "Ale", "Holbie", 900.99)); 
+        cardHolders.Add(new cardHolder("1234567890", 1243, "Random", "NPC", 10000.99)); 
+
+        // Prompt user
+        Console.WriteLine("Welcome to My ATM Machine");
+        Console.WriteLine("Please enter your card number: ");
+        String debitCardNum = "";
+        cardHolder currentUser;
+
+        while(true)
+        {
+            try{
+                debitCardNum = Console.ReadLine();
+                // check against our db (NO DB ADDED YET)
+                currentUser = cardHolders.FirstOrDefault(a => a.cardNum == debitCardNum);
+                if(currentUser != null) {break; }
+                else { Console.WriteLine("Card not recognized. Please try again");}
+            }
+            catch { Console.WriteLine("Card not recognized. Please try again"); }
+        }
+
+        Console.WriteLine("Please enter your pin: ");
+        int userPin = 0;
+        while(true)
+        {
+            try{
+                userPin = int.Parse(Console.ReadLine());
+                if(currentUser.getPin() == userPin) {break; }
+                else { Console.WriteLine("Wrong PIN. Please try again");}
+            }
+            catch { Console.WriteLine("Wrong PIN. Please try again"); }
+        }
+
+        Console.WriteLine("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + " :)");
+        int option = 0;
+        do
+        {
+            printOptions();
+            try
+            {
+                option = int.Parse(Console.ReadLine());
+            }
+            catch { }
+            if(option == 1) { deposit(currentUser); }
+            else if(option == 2) { withdraw(currentUser); }
+            else if(option == 3) { balance(currentUser); }
+            else if(option == 4) { break; }
+            else { option =0; }
+        }
+        while(option != 4);
+        Console.WriteLine("Thank you come again! :)");
     }
 }
