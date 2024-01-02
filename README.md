@@ -5,4 +5,11 @@ ATM Functions
 * Deposit Money
 * Check Balance
 
+Bank Users 
+ * First Name
+ * Last Name
+ * Card Number
+ * PIN
+ * Account Balance
+
 
